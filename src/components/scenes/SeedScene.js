@@ -1,7 +1,8 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color } from 'three';
-import { Flower, Land } from 'objects';
+import { Scene, Color, Vector3 } from 'three';
+import { Flower, Land, Spotlight } from 'objects';
 import { BasicLights } from 'lights';
+import { Speaker, Table, Truss } from '../objects';
 
 class SeedScene extends Scene {
     constructor() {
@@ -22,7 +23,12 @@ class SeedScene extends Scene {
         const land = new Land();
         const flower = new Flower(this);
         const lights = new BasicLights();
-        this.add(land, flower, lights);
+        const spotlight = new Spotlight(this);
+        const table = new Table(this);
+        const truss = new Truss(this);
+        const speaker = new Speaker(this);
+        speaker.position.set(4,4,4);
+        this.add(spotlight, table, lights, truss, speaker);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);

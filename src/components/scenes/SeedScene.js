@@ -1,7 +1,21 @@
 import * as Dat from 'dat.gui';
+
 import { Scene, Color, Object3D, Vector3 } from 'three';
-import { Ceiling, Floor, BackWall, FrontWall, RightWall, LeftWall } from 'objects';
+import { Ceiling, Floor, BackWall, FrontWall, RightWall, LeftWall, Speaker, Table, Truss } from 'objects';
 import { BasicLights, SpotLights, LightTarget } from 'lights';
+
+function dumpObject(obj, lines = [], isLast = true, prefix = '') {
+    const localPrefix = isLast ? '└─' : '├─';
+    lines.push(`${prefix}${prefix ? localPrefix : ''}${obj.name || '*no-name*'} [${obj.type}]`);
+    const newPrefix = prefix + (isLast ? '  ' : '│ ');
+    const lastNdx = obj.children.length - 1;
+    obj.children.forEach((child, ndx) => {
+      const isLast = ndx === lastNdx;
+      dumpObject(child, lines, isLast, newPrefix);
+    });
+    return lines;
+  }
+
 
 class SeedScene extends Scene {
     constructor() {
@@ -44,8 +58,19 @@ class SeedScene extends Scene {
         const rightwall = new RightWall(this);
         const leftwall = new LeftWall(this);
 
-        //this.add(ceiling, floor, backwall, frontwall, rightwall, leftwall);
         this.add(frontwall, floor, backwall, ceiling, rightwall, leftwall);
+
+        // Add meshes to scene
+        const land = new Land();
+        const flower = new Flower(this);
+        const lights = new BasicLights();
+        const spotlight = new Spotlight(this);
+        const table = new Table(this);
+        const truss = new Truss(this);
+        const speaker = new Speaker(this);
+        speaker.position.set(4,4,4);
+        this.add(spotlight, table, lights, truss, speaker);
+        //console.log(dumpObject(table).join('\n'));
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);

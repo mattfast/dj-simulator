@@ -1,6 +1,6 @@
 import { Group, SpotLight, AmbientLight, HemisphereLight } from 'three';
 
-class BasicLights extends Group {
+class AtmosphericLights extends Group {
     constructor(...args) {
         // Invoke parent Group() constructor with our args
         super(...args);
@@ -12,4 +12,4 @@ class BasicLights extends Group {
     }
 }
 
-export default BasicLights;
+export default AtmosphericLights;

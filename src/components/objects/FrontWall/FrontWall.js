@@ -23,7 +23,7 @@ class FrontWall extends Group {
           side: DoubleSide
         });
         // Create a geometry with N segments.
-        const planeGeometry = new PlaneGeometry(200, 40);
+        const planeGeometry = new PlaneGeometry(200, 100);
 
         // Update geometry.
         planeGeometry.computeFaceNormals();

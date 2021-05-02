@@ -1,7 +1,7 @@
 import * as Dat from 'dat.gui';
 
 import { Scene, Color, Object3D, Vector3 } from 'three';
-import { Ceiling, Floor, BackWall, FrontWall, RightWall, LeftWall, Speaker, Table, Truss } from 'objects';
+import { Ceiling, Floor, BackWall, FrontWall, RightWall, LeftWall, Speaker, Table, Truss, Alphabet } from 'objects';
 import { BasicLights, SpotLights, LightTarget } from 'lights';
 
 function dumpObject(obj, lines = [], isLast = true, prefix = '') {
@@ -60,17 +60,95 @@ class SeedScene extends Scene {
 
         this.add(frontwall, floor, backwall, ceiling, rightwall, leftwall);
 
-        // Add meshes to scene
-        const land = new Land();
-        const flower = new Flower(this);
-        const lights = new BasicLights();
-        const spotlight = new Spotlight(this);
+        // Create DJ equipment
         const table = new Table(this);
-        const truss = new Truss(this);
-        const speaker = new Speaker(this);
-        speaker.position.set(4,4,4);
-        this.add(spotlight, table, lights, truss, speaker);
+        const truss1 = new Truss(this);
+        const truss2 = new Truss(this);
+        const truss3 = new Truss(this);
+        const truss4 = new Truss(this);
+        const speaker1 = new Speaker(this);
+        const speaker2 = new Speaker(this);
+        const speaker3 = new Speaker(this);
+        const speaker4 = new Speaker(this);
+
+        // Set positions of equipment
+        table.scale.set(2,2,2);
+        table.position.set(7, -6, -13);
+
+        truss1.scale.set(12,12,12);
+        truss2.scale.set(12,12,12);
+        truss3.scale.set(12,12,12);
+        truss4.scale.set(12,12,12);
+
+        truss1.position.set(27, 6, -47);
+        truss2.position.set(-27, 6, -47);
+        truss3.position.set(27, 6, 17);
+        truss4.position.set(-27, 6, 17);
+
+        speaker1.scale.set(5, 5, 5);
+        speaker2.scale.set(5, 5, 5);
+        speaker3.scale.set(5, 5, 5);
+        speaker4.scale.set(5, 5, 5);
+
+        speaker1.position.set(26, 11, -46);
+        speaker2.position.set(-26, 11, -46);
+        speaker3.position.set(26, 11, 16);
+        speaker4.position.set(-26, 11, 16);
+
+        speaker1.rotation.order = "XZY";
+        speaker1.rotation.x = Math.PI / 2;
+        speaker1.rotation.y = Math.PI / 2;
+        speaker1.rotation.z = Math.PI / 4;
+
+        speaker2.rotation.order = "XZY";
+        speaker2.rotation.x = Math.PI / 2;
+        speaker2.rotation.y = Math.PI / 2;
+        speaker2.rotation.z = -Math.PI / 4;
+
+        speaker3.rotation.order = "XZY";
+        speaker3.rotation.x = Math.PI / 2;
+        speaker3.rotation.y = Math.PI / 2;
+        speaker3.rotation.z = 3*Math.PI / 4;
+
+        speaker4.rotation.order = "XZY";
+        speaker4.rotation.x = Math.PI / 2;
+        speaker4.rotation.y = Math.PI / 2;
+        speaker4.rotation.z = -3*Math.PI / 4;
+        
+
+        this.add(table, truss1, truss2, truss3, truss4, speaker1, speaker2, speaker3, speaker4);
         //console.log(dumpObject(table).join('\n'));
+
+        // Add letters
+        const letterD = new Alphabet(this, 'D');
+        const letterJ = new Alphabet(this, 'J');
+        const letterF = new Alphabet(this, 'F');
+        const letterE = new Alphabet(this, 'E');
+        const letterL = new Alphabet(this, 'L');
+        const letterI = new Alphabet(this, 'I');
+        const letterX = new Alphabet(this, 'X');
+
+        letterD.scale.set(0.1, 0.1, 0.1);
+        letterJ.scale.set(0.1, 0.1, 0.1);
+        letterF.scale.set(0.1, 0.1, 0.1);
+        letterE.scale.set(0.1, 0.1, 0.1);
+        letterL.scale.set(0.1, 0.1, 0.1);
+        letterI.scale.set(0.1, 0.1, 0.1);
+        letterX.scale.set(0.1, 0.1, 0.1);
+
+        letterD.rotation.y = -Math.PI / 2;
+        letterJ.rotation.y = -Math.PI / 2;
+        letterF.rotation.y = -Math.PI / 2;
+        letterE.rotation.y = -Math.PI / 2;
+        letterL.rotation.y = -Math.PI / 2;
+        letterI.rotation.y = -Math.PI / 2;
+        letterX.rotation.y = -Math.PI / 2;
+
+        letterD.position.set(32, 10, -20);
+        letterJ.position.set(-6, 12, -25);
+        //this.add(letterD, letterJ);
+
+
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);

@@ -31,7 +31,7 @@ class Ceiling extends Group {
         // Create plane
         const plane = new Mesh(planeGeometry, planeMaterial);
         plane.rotation.x = -Math.PI / 2;
-        plane.position.set(0, 20, -15);
+        plane.position.set(0, 25, -15);
         this.add(plane);
     }
 }

@@ -12,3 +12,5 @@ export * from './Spotlight';
 
 export * from './Table';
 export * from './Truss';
+
+export * from './Alphabet';

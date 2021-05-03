@@ -14,3 +14,5 @@ export * from './Table';
 export * from './Truss';
 
 export * from './Alphabet';
+
+export * from './Man';

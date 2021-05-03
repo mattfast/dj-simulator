@@ -19,11 +19,12 @@ class BackWall extends Group {
 
         let planeMaterial = new MeshStandardMaterial({
           //color: 0x808080,
-          color: 0x202020,
+          //color: 0x202020,
+          color: 0x101022,
           side: DoubleSide
         });
         // Create a geometry with N segments.
-        const planeGeometry = new PlaneGeometry(200, 40);
+        const planeGeometry = new PlaneGeometry(200, 100);
 
         // Update geometry.
         planeGeometry.computeFaceNormals();

@@ -1,7 +1,7 @@
 import * as Dat from 'dat.gui';
 
 import { Scene, Color, Object3D, Vector3 } from 'three';
-import { Ceiling, Floor, BackWall, FrontWall, RightWall, LeftWall, Speaker, Table, Truss, Alphabet } from 'objects';
+import { Ceiling, Floor, BackWall, FrontWall, RightWall, LeftWall, Speaker, Table, Truss, Alphabet, Man } from 'objects';
 import { BasicLights, SpotLights, LightTarget } from 'lights';
 
 function dumpObject(obj, lines = [], isLast = true, prefix = '') {
@@ -148,6 +148,11 @@ class SeedScene extends Scene {
         letterJ.position.set(-6, 12, -25);
         //this.add(letterD, letterJ);
 
+        // Add man
+        const wayne = new Man(this);
+        wayne.scale.set(0.05, 0.05, 0.05);
+        wayne.position.set(10, -6, -20);
+        this.add(wayne);
 
 
         // Populate GUI

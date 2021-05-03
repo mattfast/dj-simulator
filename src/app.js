@@ -6,14 +6,20 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3, Clock } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SeedScene } from 'scenes';
+import { BloomEffect, EffectComposer, EffectPass, RenderPass } from "postprocessing";
 
 // Initialize core ThreeJS components
 const scene = new SeedScene();
 const camera = new PerspectiveCamera(80);
 const renderer = new WebGLRenderer({ antialias: true });
+
+// Post processing
+// const composer = new EffectComposer(renderer);
+// composer.addPass(new RenderPass(scene, camera));
+// composer.addPass(new EffectPass(camera, new BloomEffect()));
 
 // Set up camera
 camera.position.set(0, -10, 100);
@@ -39,6 +45,7 @@ controls.update();
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
     renderer.render(scene, camera);
+    // composer.render(clock.getDelta());
     scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);
 };

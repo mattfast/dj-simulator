@@ -7,11 +7,12 @@
  *
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3, Clock, FloatType } from 'three';
-import { SelectiveBloomEffect, EffectComposer, EffectPass, RenderPass, BlendFunction, KernelSize } from 'postprocessing';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { SeedScene } from 'scenes';
+import { GameScene, MenuScene } from 'scenes';
 
 // Initialize core ThreeJS components
+const menuScene = new MenuScene();
+const gameScene = new GameScene();
 const camera = new PerspectiveCamera(80);
 const renderer = new WebGLRenderer({ 	
 	//powerPreference: "high-performance",
@@ -64,12 +65,13 @@ composer.addPass(effectPass);
 selectiveBloomEffect.selection.add(scene.speaker1);
 
 const clock = new Clock();
+// default scene to be rendered is the MenuScene
+let scene = menuScene;
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
     renderer.render(scene, camera);
-    composer.render(clock.getDelta());
     scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);
 };
@@ -84,3 +86,13 @@ const windowResizeHandler = () => {
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
+
+// press space to play
+window.addEventListener('keydown', event => {
+    const key = event.key;
+    if (key == ' '){
+        if (scene == menuScene){
+            scene = gameScene;
+        }
+    }
+})

@@ -4,20 +4,8 @@ import { Scene, Color, Object3D, Vector3 } from 'three';
 import { Ceiling, Floor, BackWall, FrontWall, RightWall, LeftWall, Speaker, Table, Truss, Alphabet, Man } from 'objects';
 import { BasicLights, SpotLights, LightTarget } from 'lights';
 
-function dumpObject(obj, lines = [], isLast = true, prefix = '') {
-    const localPrefix = isLast ? '└─' : '├─';
-    lines.push(`${prefix}${prefix ? localPrefix : ''}${obj.name || '*no-name*'} [${obj.type}]`);
-    const newPrefix = prefix + (isLast ? '  ' : '│ ');
-    const lastNdx = obj.children.length - 1;
-    obj.children.forEach((child, ndx) => {
-      const isLast = ndx === lastNdx;
-      dumpObject(child, lines, isLast, newPrefix);
-    });
-    return lines;
-  }
 
-
-class SeedScene extends Scene {
+class GameScene extends Scene {
     constructor() {
         // Call parent Scene() constructor
         super();
@@ -183,4 +171,4 @@ class SeedScene extends Scene {
     }
 }
 
-export default SeedScene;
+export default GameScene;

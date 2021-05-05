@@ -14,5 +14,7 @@ export * from './Table';
 export * from './Truss';
 
 export * from './Alphabet';
+export * from './Title';
+export * from './SpaceToPlayText';
 
 export * from './Man';

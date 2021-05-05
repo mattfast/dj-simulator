@@ -1,7 +1,7 @@
 import * as Dat from 'dat.gui';
 
 import { Scene, Color, Object3D, Vector3 } from 'three';
-import { Ceiling, Floor, BackWall, FrontWall, RightWall, LeftWall, Speaker, Table, Truss, Alphabet, Man } from 'objects';
+import { Ceiling, Floor, BackWall, FrontWall, RightWall, LeftWall, Speaker, Table, Truss, Alphabet, Man, Arrow } from 'objects';
 import { BasicLights, SpotLights, LightTarget } from 'lights';
 
 
@@ -151,7 +151,12 @@ class GameScene extends Scene {
         steve.position.set(0, -6, -17);
         //this.add(wayne, alfred, steve);
 
-        this.speaker1 = speaker1;
+        // Add arrow
+        const arrow1 = new Arrow(this, true, new Vector3(0.1, -0.1, -4));
+        arrow1.position.set(0.1, -0.1, -4);
+        arrow1.scale.set(4.0, 4.0, 4.0);
+        arrow1.rotation.z = -Math.PI / 2;
+        this.add(arrow1);
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }

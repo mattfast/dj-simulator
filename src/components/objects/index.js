@@ -18,3 +18,4 @@ export * from './Title';
 export * from './SpaceToPlayText';
 
 export * from './Man';
+export * from './Arrow';

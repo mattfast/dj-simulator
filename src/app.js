@@ -20,7 +20,6 @@ const renderer = new WebGLRenderer({
 	//stencil: false,
 	//depth: false
 });
-const scene = new SeedScene();
 
 // Set up camera
 camera.position.set(0, -10, 100);
@@ -42,7 +41,7 @@ controls.enablePan = false;
 controls.maxDistance = 0.1;
 controls.update();
 
-const composer = new EffectComposer(renderer, {
+/*const composer = new EffectComposer(renderer, {
 	frameBufferType: FloatType
 });
 composer.addPass(new RenderPass(scene, camera));
@@ -64,7 +63,7 @@ effectPass.renderToScreen = true;
 composer.addPass(effectPass);
 selectiveBloomEffect.selection.add(scene.speaker1);
 
-const clock = new Clock();
+const clock = new Clock();*/
 // default scene to be rendered is the MenuScene
 let scene = menuScene;
 

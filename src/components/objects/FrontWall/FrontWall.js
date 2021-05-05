@@ -7,6 +7,7 @@ import {
     TextureLoader,
     RepeatWrapping,
     MeshStandardMaterial,
+    Color,
 } from 'three';
 
 class FrontWall extends Group {
@@ -21,7 +22,7 @@ class FrontWall extends Group {
           //color: 0x808080,
           //color: 0x202020,
           color: 0x101022,
-          side: DoubleSide
+          side: DoubleSide,
         });
         // Create a geometry with N segments.
         const planeGeometry = new PlaneGeometry(200, 100);

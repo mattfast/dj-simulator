@@ -6,14 +6,20 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3, Clock, FloatType } from 'three';
+import { SelectiveBloomEffect, EffectComposer, EffectPass, RenderPass, BlendFunction, KernelSize } from 'postprocessing';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SeedScene } from 'scenes';
 
 // Initialize core ThreeJS components
-const scene = new SeedScene();
 const camera = new PerspectiveCamera(80);
-const renderer = new WebGLRenderer({ antialias: true });
+const renderer = new WebGLRenderer({ 	
+	//powerPreference: "high-performance",
+	antialias: false,
+	//stencil: false,
+	//depth: false
+});
+const scene = new SeedScene();
 
 // Set up camera
 camera.position.set(0, -10, 100);
@@ -35,10 +41,35 @@ controls.enablePan = false;
 controls.maxDistance = 0.1;
 controls.update();
 
+const composer = new EffectComposer(renderer, {
+	frameBufferType: FloatType
+});
+composer.addPass(new RenderPass(scene, camera));
+
+// Add selective bloom effects
+
+const bloomOptions = {
+	blendFunction: BlendFunction.SCREEN,
+	kernelSize: KernelSize.MEDIUM,
+	luminanceThreshold: 0.9,
+	luminanceSmoothing: 0.1,
+	height: 480
+};
+
+const selectiveBloomEffect = new SelectiveBloomEffect(scene, camera, bloomOptions);
+selectiveBloomEffect.inverted = true;
+const effectPass = new EffectPass(camera, selectiveBloomEffect);
+effectPass.renderToScreen = true;
+composer.addPass(effectPass);
+selectiveBloomEffect.selection.add(scene.speaker1);
+
+const clock = new Clock();
+
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
     renderer.render(scene, camera);
+    composer.render(clock.getDelta());
     scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);
 };

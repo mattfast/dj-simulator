@@ -1,4 +1,4 @@
-import { Group } from 'three';
+import { Group, Color } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './Table.gltf';
@@ -33,6 +33,7 @@ class Table extends Group {
             this.add(gltf.scene);
             console.log(dumpObject(gltf.scene).join('\n'));
             smallDisc = gltf.scene.getObjectByName('DJControl01_1_13');
+            //smallDisc.emissive = new Color(0xff0000);
         });
 
         // Add self to parent's update list
@@ -46,7 +47,7 @@ class Table extends Group {
             for (const disc of smallDisc.children) {
               disc.rotation.y = timeStamp / 1000;
             }
-          }
+        }
     }
 }
 

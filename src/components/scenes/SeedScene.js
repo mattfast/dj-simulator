@@ -50,6 +50,8 @@ class SeedScene extends Scene {
         spotlight2.dir.target = target2.target;
         spotlight3.dir.target = target3.target;
 
+        //spotlight4.dir.target = target4.target;
+
         // Add room geometries
         const ceiling = new Ceiling(this);
         const floor = new Floor(this);
@@ -150,11 +152,18 @@ class SeedScene extends Scene {
 
         // Add man
         const wayne = new Man(this);
+        const alfred = new Man(this);
+        const steve = new Man(this);
         wayne.scale.set(0.05, 0.05, 0.05);
+        alfred.scale.set(0.01, 0.01, 0.01);
+        steve.scale.set(0.1, 0.1, 0.1);
+
         wayne.position.set(10, -6, -20);
-        this.add(wayne);
+        alfred.position.set(-10, -6, -17);
+        steve.position.set(0, -6, -17);
+        //this.add(wayne, alfred, steve);
 
-
+        this.speaker1 = speaker1;
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }

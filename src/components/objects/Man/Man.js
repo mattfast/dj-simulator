@@ -41,6 +41,8 @@ class Man extends Group {
             this.add(model);
         });
 
+        this.deltasum = 0;
+
         // Add self to parent's update list
         parent.addToUpdateList(this);
     }
@@ -53,6 +55,7 @@ class Man extends Group {
 
             if (this.state.prevTimeStamp === null) {
                 this.state.prevTimeStamp = timeStamp;
+                this.state.mixer.update(37.5);
             }
             /*if (!this.state.initialUpdate) {
                 console.log("initial update");
@@ -63,6 +66,14 @@ class Man extends Group {
             const delta = (timeStamp - this.state.prevTimeStamp) / this.state.speed;
             this.state.prevTimeStamp = timeStamp;
             this.state.mixer.update(delta);
+
+            this.deltasum += delta;
+            if (this.deltasum > 10.25) {
+                this.deltasum = 0;
+                this.state.mixer.update(37.5);
+            }
+
+
             console.log("here1");
         }
         else {

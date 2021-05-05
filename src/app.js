@@ -20,7 +20,6 @@ const renderer = new WebGLRenderer({
 	//stencil: false,
 	//depth: false
 });
-const scene = new SeedScene();
 
 // Set up camera
 camera.position.set(0, -10, 100);

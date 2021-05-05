@@ -5,6 +5,28 @@ import { Ceiling, Floor, BackWall, FrontWall, RightWall, LeftWall, Speaker, Tabl
 import { BasicLights, SpotLights, LightTarget } from 'lights';
 
 
+const tablePositions = [
+    new Vector3(-2, -0.1, -2),
+    new Vector3(-1, -0.1, -3),
+    new Vector3(0.1, -0.1, -4),
+    new Vector3(2, -0.1, -2.5),
+    new Vector3(3, -0.1, -2)
+]
+
+const tableNames = {
+    'mesh_7': 0,
+    'mesh_9': 0,
+    'mesh_0': 1,
+    'mesh_1': 1,
+    'mesh_11': 2,
+    'mesh_10': 2,
+    'mesh_13': 2,
+    'mesh_5': 3,
+    'mesh_6': 4
+}
+    
+
+
 class GameScene extends Scene {
     constructor() {
         // Call parent Scene() constructor
@@ -15,6 +37,7 @@ class GameScene extends Scene {
             gui: new Dat.GUI(), // Create GUI for scene
             rotationSpeed: 0,
             updateList: [],
+            selected: null,
         };
 
         // Set background to a nice color
@@ -152,17 +175,38 @@ class GameScene extends Scene {
         //this.add(wayne, alfred, steve);
 
         // Add arrow
-        const arrow1 = new Arrow(this, true, new Vector3(0.1, -0.1, -4));
-        arrow1.position.set(0.1, -0.1, -4);
-        arrow1.scale.set(4.0, 4.0, 4.0);
-        arrow1.rotation.z = -Math.PI / 2;
-        this.add(arrow1);
+        this.arrows = []
+        for (let i = 0; i < tablePositions.length; i++) {
+            this.arrows[i] = new Arrow(this, true, tablePositions[i]);
+            this.arrows[i].transparent = true;
+            this.add(this.arrows[i]);
+        }
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }
 
     addToUpdateList(object) {
         this.state.updateList.push(object);
+    }
+
+    fade(object, beginTimestamp, out) {
+        if (object.material !== null) {
+            if (out) {
+                if (material.opacity > 0) {
+                    material.opacity -= 0.001 * (timeStamp - beginTimeStamp);
+                }   
+            }
+            else {
+                if (material.opacity < 1) {
+                    material.opacity += 0.001 * (timeStamp - beginTimeStamp);
+                }
+            }
+
+        }
+
+        for (let i = 0; i < object.children.length; i++) {
+            fade(object.children[i], beginTimestamp, out);
+        }
     }
 
     update(timeStamp) {
@@ -172,6 +216,15 @@ class GameScene extends Scene {
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
+        }
+
+        if (this.state.selected !== null) {
+            if (this.state.selected.name in tableNames) {
+                console.log("changed opacity");
+                console.log(this.arrows[tableNames[this.state.selected.name]]);
+                this.arrows[tableNames[this.state.selected.name]].visible = !this.arrows[tableNames[this.state.selected.name]].visible;
+            }
+            this.state.selected = null;
         }
     }
 }

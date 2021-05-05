@@ -6,7 +6,7 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3, Clock, FloatType } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3, Vector2, Clock, FloatType, Raycaster } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GameScene, MenuScene } from 'scenes';
 
@@ -15,11 +15,9 @@ const menuScene = new MenuScene();
 const gameScene = new GameScene();
 const camera = new PerspectiveCamera(80);
 const renderer = new WebGLRenderer({ 	
-	//powerPreference: "high-performance",
 	antialias: false,
-	//stencil: false,
-	//depth: false
 });
+const raycaster = new Raycaster();
 
 // Set up camera
 camera.position.set(0, -10, 100);
@@ -37,33 +35,9 @@ document.body.appendChild(canvas);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.enablePan = false;
-//controls.minDistance = 4;
 controls.maxDistance = 0.1;
 controls.update();
 
-/*const composer = new EffectComposer(renderer, {
-	frameBufferType: FloatType
-});
-composer.addPass(new RenderPass(scene, camera));
-
-// Add selective bloom effects
-
-const bloomOptions = {
-	blendFunction: BlendFunction.SCREEN,
-	kernelSize: KernelSize.MEDIUM,
-	luminanceThreshold: 0.9,
-	luminanceSmoothing: 0.1,
-	height: 480
-};
-
-const selectiveBloomEffect = new SelectiveBloomEffect(scene, camera, bloomOptions);
-selectiveBloomEffect.inverted = true;
-const effectPass = new EffectPass(camera, selectiveBloomEffect);
-effectPass.renderToScreen = true;
-composer.addPass(effectPass);
-selectiveBloomEffect.selection.add(scene.speaker1);
-
-const clock = new Clock();*/
 // default scene to be rendered is the MenuScene
 let scene = menuScene;
 
@@ -92,6 +66,23 @@ window.addEventListener('keydown', event => {
     if (key == ' '){
         if (scene == menuScene){
             scene = gameScene;
+        }
+    }
+})
+
+window.addEventListener('mousedown', event => {
+    const clickLocation = new Vector2();
+
+    clickLocation.x = (event.clientX / window.innerWidth) * 2.0 - 1.0;
+    clickLocation.y = -(event.clientY / window.innerHeight) * 2.0 + 1.0;
+
+    raycaster.setFromCamera(clickLocation, camera);
+    const intersects = raycaster.intersectObjects(scene.children, true);
+    if (intersects.length > 0) {
+        const object = intersects[0].object;
+        console.log(object.name);
+        if (object !== null) {
+            scene.state.selected = object;
         }
     }
 })

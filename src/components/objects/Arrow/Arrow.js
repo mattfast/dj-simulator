@@ -22,6 +22,10 @@ class Arrow extends Group {
             this.add(gltf.scene);
         });
 
+        this.position.set(originalPosition.x, originalPosition.y, originalPosition.z);
+        this.scale.set(4.0, 4.0, 4.0);
+        this.rotation.z = -Math.PI / 2;
+
         // Add self to parent's update list
         parent.addToUpdateList(this);
     }

@@ -38,6 +38,14 @@ class GameScene extends Scene {
             rotationSpeed: 0,
             updateList: [],
             selected: null,
+            difficulty: 1000,
+            score: 0,
+            sequence: [],
+            demonstration: true,
+            demonstrationIndex: -1,
+            challengeIndex: 0,
+            prevTime: 0,
+            mouseUp: false,
         };
 
         // Set background to a nice color
@@ -175,12 +183,23 @@ class GameScene extends Scene {
         //this.add(wayne, alfred, steve);
 
         // Add arrow
-        this.arrows = []
+        this.blueArrows = []
+        this.greenArrows = []
+        this.redArrows = []
         for (let i = 0; i < tablePositions.length; i++) {
-            this.arrows[i] = new Arrow(this, true, tablePositions[i]);
-            this.arrows[i].transparent = true;
-            this.add(this.arrows[i]);
+            this.blueArrows[i] = new Arrow(this, true, tablePositions[i], 'blue');
+            this.greenArrows[i] = new Arrow(this, true, tablePositions[i], 'green');
+            this.redArrows[i] = new Arrow(this, true, tablePositions[i], 'red');
+            
+            this.blueArrows[i].visible = false;
+            this.greenArrows[i].visible = false;
+            this.redArrows[i].visible = false;
+            this.add(this.blueArrows[i], this.greenArrows[i], this.redArrows[i]);
         }
+
+        // Add first arrow to sequence
+        this.state.sequence[0] = Math.floor(Math.random() * this.blueArrows.length);
+
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }
@@ -218,14 +237,111 @@ class GameScene extends Scene {
             obj.update(timeStamp);
         }
 
-        if (this.state.selected !== null) {
+        // handle demonstration of sequence
+        if (this.state.demonstration) {
+
+            // demonstrate next arrow in sequence
+            if (timeStamp - this.state.prevTime > 2000) {
+
+                if (this.state.demonstrationIndex >= 0){
+                    this.blueArrows[this.state.sequence[this.state.demonstrationIndex]].visible = false;
+                }
+                this.state.demonstrationIndex += 1;
+
+                if (this.state.demonstrationIndex == this.state.sequence.length) {
+                    this.state.demonstrationIndex = -1;
+                    this.state.selected = null;
+                    this.state.demonstration = false;
+                }
+                else {
+                    this.state.prevTime = timeStamp; 
+                }
+            }
+            if (timeStamp - this.state.prevTime > 500) {
+                if (this.state.demonstrationIndex >= 0){
+                    this.blueArrows[this.state.sequence[this.state.demonstrationIndex]].visible = true;
+                }
+            }
+        }
+
+        // handle attempt at sequence
+        else {
+            if (this.state.selected !== null) {
+                if (this.state.selected.name in tableNames) {
+                    console.log(tableNames[this.state.selected.name]);
+                    console.log(this.state.sequence[this.state.challengeIndex]);
+                    console.log(this.state.challengeIndex);
+                    if (tableNames[this.state.selected.name] == this.state.sequence[this.state.challengeIndex]) {
+                        this.state.challengeIndex += 1;
+                        this.greenArrows[tableNames[this.state.selected.name]].visible = true;
+
+                        if (this.state.challengeIndex == this.state.sequence.length) {
+                            const rand = Math.floor(Math.random() * this.blueArrows.length);
+                            this.state.sequence[this.state.sequence.length] = rand;
+
+                            this.state.score += (10 * (this.state.sequence.length - 1));
+                            this.state.challengeIndex = 0;
+                            this.state.prevTime = timeStamp;
+                            this.state.demonstration = true;
+                        }
+                    }
+                    else {
+                        this.redArrows[tableNames[this.state.selected.name]].visible = true;
+
+                        this.state.challengeIndex = 0;
+                        this.state.prevTime = timeStamp;
+                        this.state.demonstration = true;
+                    }
+                }
+                this.state.lastSelected = this.state.selected;
+                this.state.selected = null;
+            }
+        }
+
+        if (this.state.mouseUp && this.state.lastSelected !== null) {
+            if (this.state.lastSelected.name in tableNames) {
+                this.greenArrows[tableNames[this.state.lastSelected.name]].visible = false;
+                this.redArrows[tableNames[this.state.lastSelected.name]].visible = false;
+            }
+            this.state.mouseUp = false;
+        }
+
+        /*if (this.state.selected !== null) {
             if (this.state.selected.name in tableNames) {
-                console.log("changed opacity");
-                console.log(this.arrows[tableNames[this.state.selected.name]]);
-                this.arrows[tableNames[this.state.selected.name]].visible = !this.arrows[tableNames[this.state.selected.name]].visible;
+                if (this.arrows[tableNames[this.state.selected.name]].visible) {
+                    this.arrows[tableNames[this.state.selected.name]].visible = false;
+                    this.state.arrowTimes[tableNames[this.state.selected.name]] = 0;
+                    this.state.score += 100;
+                    console.log(this.state.score);
+                }
             }
             this.state.selected = null;
         }
+
+        // if it's been a while since the last arrow, randomly add one
+        if (this.state.timeSinceLastArrow > this.state.difficulty) {
+            const randArrow = Math.floor(Math.random() * this.arrows.length);
+            this.arrows[randArrow].visible = true;
+            this.state.timeSinceLastArrow = 0;
+        }
+        else {
+            this.state.timeSinceLastArrow += timeStamp - this.state.prevTimeStamp;
+        }
+
+        for (let i = 0; i < this.arrows.length; i++) {
+            if (this.arrows[i].visible) {
+                this.state.arrowTimes[i] += timeStamp - this.state.prevTimeStamp;
+
+                if (this.state.arrowTimes[i] > 1000) {
+                    this.state.score -= 200;
+                    this.arrows[i].visible = false;
+                    this.state.arrowTimes[i] = 0;
+                    console.log(this.state.score);
+                }
+            }
+        }*/
+
+        this.state.prevTimeStamp = timeStamp;
     }
 }
 

@@ -1,10 +1,12 @@
 import { Group, Color } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import MODEL from './Arrow.gltf';
+import BLUE_MODEL from './BlueArrow.gltf';
+import RED_MODEL from './RedArrow.gltf';
+import GREEN_MODEL from './GreenArrow.gltf';
 
 class Arrow extends Group {
-    constructor(parent, bob, originalPosition) {
+    constructor(parent, bob, originalPosition, color) {
         // Call parent Group() constructor
         super();
 
@@ -18,9 +20,22 @@ class Arrow extends Group {
         // Load object
         const loader = new GLTFLoader();
         this.name = 'Arrow';
-        loader.load(MODEL, (gltf) => {
-            this.add(gltf.scene);
-        });
+
+        if (color == 'blue') {
+            loader.load(BLUE_MODEL, (gltf) => {
+                this.add(gltf.scene);
+            });
+        }
+        else if (color == 'green') {
+            loader.load(GREEN_MODEL, (gltf) => {
+                this.add(gltf.scene);
+            });
+        }
+        else {
+            loader.load(RED_MODEL, (gltf) => {
+                this.add(gltf.scene);
+            });
+        }
 
         this.position.set(originalPosition.x, originalPosition.y, originalPosition.z);
         this.scale.set(4.0, 4.0, 4.0);

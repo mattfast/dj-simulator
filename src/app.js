@@ -86,3 +86,7 @@ window.addEventListener('mousedown', event => {
         }
     }
 })
+
+window.addEventListener('mouseup', event => {
+    scene.state.mouseUp = true;
+})

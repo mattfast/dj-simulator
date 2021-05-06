@@ -1,6 +1,3 @@
-export * from './Flower';
-export * from './Land';
-
 // Room
 export * from './BackWall';
 export * from './FrontWall';

@@ -1,13 +1,12 @@
-import { Scene, Color, Object3D, Vector3 } from 'three';
+import { Vector3 } from 'three';
 import { NightclubScene } from './NightclubScene.js';
-import { Ceiling, Floor, BackWall, FrontWall, RightWall, LeftWall, Speaker, Table, Truss, Alphabet, Man, Text } from 'objects';
-import { BasicLights, SpotLights, LightTarget } from 'lights';
+import { Text } from 'objects';
 
 class MenuScene extends NightclubScene {
     constructor() {
         // Call parent Scene() constructor
         super();
-        
+
         // Load in menu text
         const title = new Text(this, "DJ SIMULATOR", new Vector3(-0.12,0.03,-0.08), 0.0001);
         const spaceToPlay = new Text(this, "Press SPACE to Play", new Vector3(-0.11,-0.02,-0.08), 0.00007);

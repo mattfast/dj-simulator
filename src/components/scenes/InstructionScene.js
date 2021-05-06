@@ -1,7 +1,6 @@
-import { Scene, Color, Object3D, Vector3 } from 'three';
+import { Vector3 } from 'three';
 import { NightclubScene } from './NightclubScene.js';
 import { Text } from 'objects';
-import { BasicLights, SpotLights, LightTarget } from 'lights';
 
 class InstructionScene extends NightclubScene {
     constructor() {

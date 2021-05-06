@@ -1,10 +1,8 @@
 import * as Dat from 'dat.gui';
 
 import { NightclubScene } from './NightclubScene.js';
-import { Scene, Color, Object3D, Vector3 } from 'three';
+import { Vector3 } from 'three';
 import { Man, Arrow } from 'objects';
-import { BasicLights, SpotLights, LightTarget } from 'lights';
-
 
 const tablePositions = [
     new Vector3(-2, -0.1, -2),
@@ -26,6 +24,24 @@ const tableNames = {
     'mesh_6': 4
 }
 
+const positiveFeedback = [
+    "Nice Job!",
+    "Sweet!",
+    "Amazing!",
+    "Exceptional!",
+    "Wow!!",
+    "Felix is Amazing!!",
+    "Perfect!"
+]
+
+const negativeFeedback = [
+    "Yikes",
+    "Bad Job",
+    "Not Great",
+    "Try Again",
+    "Oof"
+]
+
 class GameScene extends NightclubScene {
     constructor() {
         // Call parent Scene() constructor
@@ -44,7 +60,7 @@ class GameScene extends NightclubScene {
         steve.position.set(0, -6, -17);
         //this.add(wayne, alfred, steve);
 
-        // Add arrow
+        // Add arrows
         this.blueArrows = []
         this.greenArrows = []
         this.redArrows = []

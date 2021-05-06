@@ -22,6 +22,9 @@ class Table extends Group {
             smallDisc = gltf.scene.getObjectByName('Part01_3');
         });
 
+        this.scale.set(2,2,2);
+        this.position.set(7, -6, -13);
+
         // Add self to parent's update list
         parent.addToUpdateList(this);
     }

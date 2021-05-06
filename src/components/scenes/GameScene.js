@@ -24,8 +24,6 @@ const tableNames = {
     'mesh_5': 3,
     'mesh_6': 4
 }
-    
-
 
 class GameScene extends Scene {
     constructor() {
@@ -93,23 +91,10 @@ class GameScene extends Scene {
         const speaker4 = new Speaker(this);
 
         // Set positions of equipment
-        table.scale.set(2,2,2);
-        table.position.set(7, -6, -13);
-
-        truss1.scale.set(12,12,12);
-        truss2.scale.set(12,12,12);
-        truss3.scale.set(12,12,12);
-        truss4.scale.set(12,12,12);
-
         truss1.position.set(27, 6, -47);
         truss2.position.set(-27, 6, -47);
         truss3.position.set(27, 6, 17);
         truss4.position.set(-27, 6, 17);
-
-        speaker1.scale.set(5, 5, 5);
-        speaker2.scale.set(5, 5, 5);
-        speaker3.scale.set(5, 5, 5);
-        speaker4.scale.set(5, 5, 5);
 
         speaker1.position.set(26, 11, -46);
         speaker2.position.set(-26, 11, -46);
@@ -135,39 +120,9 @@ class GameScene extends Scene {
         speaker4.rotation.x = Math.PI / 2;
         speaker4.rotation.y = Math.PI / 2;
         speaker4.rotation.z = -3*Math.PI / 4;
-        
 
         this.add(table, truss1, truss2, truss3, truss4, speaker1, speaker2, speaker3, speaker4);
         //console.log(dumpObject(table).join('\n'));
-
-        // Add letters
-        const letterD = new Alphabet(this, 'D');
-        const letterJ = new Alphabet(this, 'J');
-        const letterF = new Alphabet(this, 'F');
-        const letterE = new Alphabet(this, 'E');
-        const letterL = new Alphabet(this, 'L');
-        const letterI = new Alphabet(this, 'I');
-        const letterX = new Alphabet(this, 'X');
-
-        letterD.scale.set(0.1, 0.1, 0.1);
-        letterJ.scale.set(0.1, 0.1, 0.1);
-        letterF.scale.set(0.1, 0.1, 0.1);
-        letterE.scale.set(0.1, 0.1, 0.1);
-        letterL.scale.set(0.1, 0.1, 0.1);
-        letterI.scale.set(0.1, 0.1, 0.1);
-        letterX.scale.set(0.1, 0.1, 0.1);
-
-        letterD.rotation.y = -Math.PI / 2;
-        letterJ.rotation.y = -Math.PI / 2;
-        letterF.rotation.y = -Math.PI / 2;
-        letterE.rotation.y = -Math.PI / 2;
-        letterL.rotation.y = -Math.PI / 2;
-        letterI.rotation.y = -Math.PI / 2;
-        letterX.rotation.y = -Math.PI / 2;
-
-        letterD.position.set(32, 10, -20);
-        letterJ.position.set(-6, 12, -25);
-        //this.add(letterD, letterJ);
 
         // Add man
         const wayne = new Man(this);

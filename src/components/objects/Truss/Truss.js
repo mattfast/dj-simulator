@@ -21,6 +21,8 @@ class Truss extends Group {
             this.add(gltf.scene);
         });
 
+        this.scale.set(12,12,12);
+
         // Add self to parent's update list
         parent.addToUpdateList(this);
     }

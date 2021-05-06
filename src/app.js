@@ -8,11 +8,12 @@
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3, Clock, FloatType } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { GameScene, MenuScene } from 'scenes';
+import { GameScene, MenuScene, InstructionScene } from 'scenes';
 
 // Initialize core ThreeJS components
 const menuScene = new MenuScene();
 const gameScene = new GameScene();
+const instructionScene = new InstructionScene();
 const camera = new PerspectiveCamera(80);
 const renderer = new WebGLRenderer({ 	
 	//powerPreference: "high-performance",
@@ -91,6 +92,9 @@ window.addEventListener('keydown', event => {
     const key = event.key;
     if (key == ' '){
         if (scene == menuScene){
+            scene = instructionScene;
+        }
+        else if (scene == instructionScene){
             scene = gameScene;
         }
     }

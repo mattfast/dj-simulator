@@ -72,12 +72,6 @@ class Man extends Group {
                 this.deltasum = 0;
                 this.state.mixer.update(37.5);
             }
-
-
-            console.log("here1");
-        }
-        else {
-            console.log("here2");
         }
 
     }

@@ -2,7 +2,7 @@ import { MeshBasicMaterial, Texture, DoubleSide, Mesh, PlaneGeometry,
     FontLoader, TextGeometry, MeshLambertMaterial, Group, Scene } from 'three';
     
 
-class Title extends Group {
+class Instruction2 extends Group {
     constructor(parent) {
 
         super();
@@ -19,7 +19,7 @@ class Title extends Group {
         });
 
         // game start page signs
-        var gameTitle = new TextGeometry("DJ SIMULATOR", {
+        var instruction = new TextGeometry("The crowd will react to how well you do!", {
             font: font,
             size: 250,
             height: 8,
@@ -27,16 +27,15 @@ class Title extends Group {
             bevelEnabled: true,
             bevelThickness: 10,
             bevelSize: 9,
-            bevelSegments: 5,
+            bevelSegments: 5
         });
 
-        var gameTitleMesh = new Mesh(gameTitle, material);
-        gameTitleMesh.position.set(-0.12,0.03,-0.08);
-        gameTitleMesh.scale.multiplyScalar(0.0001);
-        gameTitleMesh.rotation.set(0, 0, 0);
-        // gameTitleMesh.castShadow = true;
-        parent.add(gameTitleMesh);
-        console.log(parent.state);
+        var instrMesh = new Mesh(instruction, material);
+        instrMesh.position.set(-0.135,0,-0.08);
+        instrMesh.scale.multiplyScalar(0.00004);
+        instrMesh.rotation.set(0, 0, 0);
+        instrMesh.castShadow = true;
+        parent.add(instrMesh);
         
     });
 
@@ -107,4 +106,4 @@ update(timeStamp) {
     }
 }
 
-export default Title;
+export default Instruction2;

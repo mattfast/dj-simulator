@@ -31,8 +31,8 @@ class SpaceToPlayText extends Group {
         });
 
         var spaceToPlayMesh = new Mesh(spaceToPlay, material);
-        spaceToPlayMesh.position.set(-0.08,-0.02,0);
-        spaceToPlayMesh.scale.multiplyScalar(0.00005);
+        spaceToPlayMesh.position.set(-0.11,-0.02,-0.08);
+        spaceToPlayMesh.scale.multiplyScalar(0.00007);
         spaceToPlayMesh.rotation.set(0, 0, 0);
         spaceToPlayMesh.castShadow = true;
         parent.add(spaceToPlayMesh);

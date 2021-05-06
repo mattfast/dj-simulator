@@ -1,8 +1,8 @@
 import { Scene, Color, Object3D, Vector3 } from 'three';
-import { Ceiling, Floor, BackWall, FrontWall, RightWall, LeftWall, Speaker, Table, Truss, Alphabet, Man, Title, SpaceToPlayText } from 'objects';
+import { Ceiling, Floor, BackWall, FrontWall, RightWall, LeftWall, Speaker, Table, Truss, Alphabet, Man, Instruction0, Instruction1, Instruction2, Instruction3 } from 'objects';
 import { BasicLights, SpotLights, LightTarget } from 'lights';
 
-class MenuScene extends Scene {
+class InstructionScene extends Scene {
     constructor() {
         // Call parent Scene() constructor
         super();
@@ -101,12 +101,12 @@ class MenuScene extends Scene {
         speaker4.rotation.z = -3*Math.PI / 4;
         this.add(table, truss1, truss2, truss3, truss4, speaker1, speaker2, speaker3, speaker4);
 
-        // Load in menu text
-        const title = new Title(this);
-        this.add(title);
-
-        const spaceToPlay = new SpaceToPlayText(this);
-        this.add(spaceToPlay);
+        // Load instruction text
+        const instr0 = new Instruction0(this);
+        const instr1 = new Instruction1(this);
+        const instr2 = new Instruction2(this);
+        const instr3 = new Instruction3(this);
+        this.add(instr0, instr1, instr2, instr3);
 
         // // Populate GUI
         // this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -127,4 +127,4 @@ class MenuScene extends Scene {
     }
 }
 
-export default MenuScene;
+export default InstructionScene;

@@ -21,6 +21,8 @@ class Speaker extends Group {
             this.add(gltf.scene);
         });
 
+        this.scale.set(5,5,5);
+
         // Add self to parent's update list
         parent.addToUpdateList(this);
     }

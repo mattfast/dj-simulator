@@ -31,8 +31,10 @@ class NightclubScene extends Scene {
 
         // Add lights
         const atmospheric = new BasicLights();
-        const spotlight1 = new SpotLights(this, 0xaa0000, [0, 0, 0], false);
-        const spotlight2 = new SpotLights(this, 0x00aa00, [0, 0, 0], false);
+        //const spotlight1 = new SpotLights(this, 0xaa0000, [0, 0, 0], false);
+        //const spotlight2 = new SpotLights(this, 0x00aa00, [0, 0, 0], false);
+        const spotlight1 = new SpotLights(this, 0xffffff, [0, 0, 0], false);
+        const spotlight2 = new SpotLights(this, 0xffffff, [0, 0, 0], false);
         this.add(atmospheric, spotlight1, spotlight2);
 
         // Add light targets
@@ -41,8 +43,8 @@ class NightclubScene extends Scene {
         this.add(target1, target2);
 
         // Connect lights to targets
-        spotlight1.dir.target = target1.target;
-        spotlight2.dir.target = target2.target;
+        spotlight1.state.dir.target = target1.target;
+        spotlight2.state.dir.target = target2.target;
 
         // Add room geometries
         const ceiling = new Ceiling(this);
@@ -97,9 +99,6 @@ class NightclubScene extends Scene {
         speaker4.rotation.z = -3*Math.PI / 4;
 
         this.add(table, truss1, truss2, truss3, truss4, speaker1, speaker2, speaker3, speaker4);
-
-        // Populate GUI
-        this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }
 
     addToUpdateList(object) {

@@ -14,6 +14,10 @@ export * from './Truss';
 
 // Dancers
 export * from './Man';
+export * from './Alien';
+export * from './DancingMan';
+export * from './Stormtrooper';
+export * from './Shrek';
 
 // Gameplay
 export * from './Text';

@@ -1,8 +1,6 @@
-import * as Dat from 'dat.gui';
-
 import { NightclubScene } from './NightclubScene.js';
 import { Vector3 } from 'three';
-import { Man, Arrow } from 'objects';
+import { Man, Alien, DancingMan, Stormtrooper, Shrek, Arrow } from 'objects';
 
 const tablePositions = [
     new Vector3(-2, -0.1, -2),
@@ -46,19 +44,24 @@ class GameScene extends NightclubScene {
     constructor() {
         // Call parent Scene() constructor
         super();
+        this.state.type = 'game';
 
-        // Add man
-        const wayne = new Man(this);
-        const alfred = new Man(this);
-        const steve = new Man(this);
-        wayne.scale.set(0.05, 0.05, 0.05);
-        alfred.scale.set(0.01, 0.01, 0.01);
-        steve.scale.set(0.1, 0.1, 0.1);
+        // Add dancers
+        const alien = new Alien(this);
+        const stormtrooper = new Stormtrooper(this);
+        const man = new DancingMan(this);
+        const shrek = new Shrek(this);
 
-        wayne.position.set(10, -6, -20);
-        alfred.position.set(-10, -6, -17);
-        steve.position.set(0, -6, -17);
-        //this.add(wayne, alfred, steve);
+        man.scale.set(0.015, 0.015, 0.015);
+        stormtrooper.scale.set(3, 3, 3);
+        alien.scale.set(3, 3, 3);
+        shrek.scale.set(0.01, 0.01, 0.01);
+
+        alien.position.set(10, -6, -20);
+        stormtrooper.position.set(-10, -6, -17);
+        man.position.set(0, -6, -17);
+        shrek.position.set(-5, -6, -40)
+        this.add(alien, stormtrooper, man, shrek);
 
         // Add arrows
         this.blueArrows = []
@@ -79,7 +82,7 @@ class GameScene extends NightclubScene {
         this.state.sequence[0] = Math.floor(Math.random() * this.blueArrows.length);
 
         // Populate GUI
-        this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
+        //this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }
 
     addToUpdateList(object) {

@@ -6,7 +6,7 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3, Vector2, Clock, FloatType, Raycaster } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3, Vector2, Clock, FloatType, Raycaster, AudioListener, Audio, AudioLoader } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GameScene, MenuScene, InstructionScene } from 'scenes';
 
@@ -23,6 +23,20 @@ const raycaster = new Raycaster();
 // Set up camera
 camera.position.set(0, -10, 100);
 camera.lookAt(new Vector3(0, 0, 0));
+
+// Set up audio
+var listener = new AudioListener();
+camera.add( listener );
+var sound = new Audio( listener );
+var audioLoader = new AudioLoader();
+
+// Load initial background music
+audioLoader.load( 'title_music.mp3', function( buffer ) {
+    sound.setBuffer( buffer );
+    sound.setLoop( true );
+    sound.setVolume( 0.5 );
+    sound.play();
+});
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);

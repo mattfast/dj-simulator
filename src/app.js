@@ -12,8 +12,6 @@ import { GameScene, MenuScene, InstructionScene } from 'scenes';
 
 // Initialize core ThreeJS components
 const menuScene = new MenuScene();
-//const gameScene = new GameScene();
-//const instructionScene = new InstructionScene();
 const camera = new PerspectiveCamera(80);
 const renderer = new WebGLRenderer({ 	
 	antialias: false,
@@ -24,19 +22,6 @@ const raycaster = new Raycaster();
 camera.position.set(0, -10, 100);
 camera.lookAt(new Vector3(0, 0, 0));
 
-// Set up audio
-var listener = new AudioListener();
-camera.add( listener );
-var sound = new Audio( listener );
-var audioLoader = new AudioLoader();
-
-// Load initial background music
-audioLoader.load( 'title_music.mp3', function( buffer ) {
-    sound.setBuffer( buffer );
-    sound.setLoop( true );
-    sound.setVolume( 0.5 );
-    sound.play();
-});
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -55,6 +40,68 @@ controls.update();
 
 // default scene to be rendered is the MenuScene
 let scene = menuScene;
+
+// Set up audio
+const listener = new AudioListener();
+var titleMusic = new Audio( listener );
+var audioLoader = new AudioLoader();
+
+// Load initial background music
+audioLoader.load('src/components/audio/title_music.mp3', function( buffer ) {
+    titleMusic.setBuffer( buffer );
+    titleMusic.setLoop = true;
+    titleMusic.hasPlaybackControl = true;
+    titleMusic.play();
+});
+
+// Load 'click' sound
+var clickSound = new Audio( listener );
+audioLoader.load('src/components/audio/button_press.mp3', function( buffer ) {
+   clickSound.setBuffer( buffer );
+   clickSound.hasPlaybackControl = true;
+   clickSound.pause();
+});
+
+// Load Animals by Martin Garrix (Game music)
+var animalsSong = new Audio( listener );
+audioLoader.load('src/components/audio/animals.mp3', function( buffer ) {
+    animalsSong.setBuffer( buffer );
+    animalsSong.hasPlaybackControl = true;
+    animalsSong.pause();
+});
+
+// Load Crowd boo
+var boo = new Audio( listener );
+audioLoader.load('src/components/audio/boo.mp3', function( buffer ) {
+    boo.setBuffer( buffer );
+    boo.hasPlaybackControl = true;
+    boo.pause();
+});
+
+// Load Crowd cheer
+var cheer = new Audio( listener );
+audioLoader.load('src/components/audio/cheer.mp3', function( buffer ) {
+    cheer.setBuffer( buffer );
+    cheer.hasPlaybackControl = true;
+    cheer.pause();
+});
+
+// Load Action Failure sound
+var actionFailure = new Audio( listener );
+audioLoader.load('src/components/audio/action_failure.mp3', function( buffer ) {
+    actionFailure.setBuffer( buffer );
+    actionFailure.hasPlaybackControl = true;
+    actionFailure.pause();
+});
+
+// Load Action Success sound
+var actionSuccess = new Audio( listener );
+audioLoader.load('src/components/audio/action_success.mp3', function( buffer ) {
+    actionSuccess.setBuffer( buffer );
+    actionSuccess.hasPlaybackControl = true;
+    actionSuccess.pause();
+});
+
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
@@ -80,12 +127,14 @@ window.addEventListener('keydown', event => {
     const key = event.key;
     if (key == ' '){
         if (scene.state.type == 'menu'){
-            //scene = instructionScene;
             scene = new InstructionScene();
+            clickSound.play();
         }
         else if (scene.state.type == 'instruction'){
-            //scene = gameScene;
             scene = new GameScene();
+            clickSound.play();
+            titleMusic.stop();
+            animalsSong.play();
         }
     }
 })
@@ -102,6 +151,7 @@ window.addEventListener('mousedown', event => {
         const object = intersects[0].object;
         console.log(object.name);
         if (object !== null) {
+            actionSuccess.play();
             scene.state.selected = object;
         }
     }

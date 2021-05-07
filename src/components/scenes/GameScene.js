@@ -1,5 +1,5 @@
 import { NightclubScene } from './NightclubScene.js';
-import { Vector3 } from 'three';
+import { Vector3, Audio, AudioLoader, AudioListener } from 'three';
 import { Man, Alien, DancingMan, Stormtrooper, Shrek, Arrow } from 'objects';
 
 const tablePositions = [
@@ -39,6 +39,7 @@ const negativeFeedback = [
     "Try Again",
     "Oof"
 ]
+
 
 class GameScene extends NightclubScene {
     constructor() {

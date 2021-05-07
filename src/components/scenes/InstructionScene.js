@@ -6,6 +6,7 @@ class InstructionScene extends NightclubScene {
     constructor() {
         // Call parent Scene() constructor
         super();
+        this.state.type = 'instruction';
 
         // Load instruction text
         const instr0 = new Text(this, "HOW TO PLAY", new Vector3(-0.08,0.06,-0.08), 0.00007);
@@ -14,9 +15,6 @@ class InstructionScene extends NightclubScene {
         const instr3 = new Text(this, "Press SPACE to Begin", new Vector3(-0.12,-0.04,-0.08), 0.00007);
 
         this.add(instr0, instr1, instr2, instr3);
-
-        // // Populate GUI
-        // this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }
 
     addToUpdateList(object) {

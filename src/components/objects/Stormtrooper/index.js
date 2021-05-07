@@ -1,0 +1,1 @@
+export { default as Stormtrooper } from './Stormtrooper.js';

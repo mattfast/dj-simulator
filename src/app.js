@@ -12,8 +12,8 @@ import { GameScene, MenuScene, InstructionScene } from 'scenes';
 
 // Initialize core ThreeJS components
 const menuScene = new MenuScene();
-const gameScene = new GameScene();
-const instructionScene = new InstructionScene();
+//const gameScene = new GameScene();
+//const instructionScene = new InstructionScene();
 const camera = new PerspectiveCamera(80);
 const renderer = new WebGLRenderer({ 	
 	antialias: false,
@@ -79,11 +79,13 @@ window.addEventListener('resize', windowResizeHandler, false);
 window.addEventListener('keydown', event => {
     const key = event.key;
     if (key == ' '){
-        if (scene == menuScene){
-            scene = instructionScene;
+        if (scene.state.type == 'menu'){
+            //scene = instructionScene;
+            scene = new InstructionScene();
         }
-        else if (scene == instructionScene){
-            scene = gameScene;
+        else if (scene.state.type == 'instruction'){
+            //scene = gameScene;
+            scene = new GameScene();
         }
     }
 })

@@ -6,6 +6,7 @@ class MenuScene extends NightclubScene {
     constructor() {
         // Call parent Scene() constructor
         super();
+        this.state.type = 'menu';
 
         // Load in menu text
         const title = new Text(this, "DJ SIMULATOR", new Vector3(-0.12,0.03,-0.08), 0.0001);

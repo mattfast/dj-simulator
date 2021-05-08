@@ -82,8 +82,9 @@ class GameScene extends NightclubScene {
 
         // Add score counter
         this.state.scorePosition = new Vector3(0.005,0.085,-0.08);
-        const score = new Text(this, "Score:", new Vector3(-0.01,0.1,-0.08), 0.00004);
-        const scoreNumber = new Text(this, this.state.score.toString(), this.state.scorePosition, 0.00004);
+        const textHolder = []
+        const score = new Text(this, "Score:", new Vector3(-0.01,0.1,-0.08), 0.00004, textHolder);
+        const scoreNumber = new Text(this, this.state.score.toString(), this.state.scorePosition, 0.00004, textHolder);
         this.state.scoreNumber = scoreNumber;
         this.add(score, scoreNumber);
 
@@ -224,9 +225,13 @@ class GameScene extends NightclubScene {
 
         if (this.state.prevScore != this.state.score) {
             //this.state.scoreNumber.visible = false;
-            this.removeFromScene(this.state.scoreNumber);
-            console.log("here");
+            //this.removeFromScene(this.state.scoreNumber);
+            //console.log("here");
+            //console.log(this.state.scoreNumber.visible);
+            this.remove(this.getObjectByName(this.state.prevScore.toString()));
+            //console.log(this.state.scoreNumber.visible);
             this.state.scoreNumber = new Text(this, this.state.score.toString(), this.state.scorePosition, 0.00004);
+            //console.log(this.state.scoreNumber);
             this.add(this.state.scoreNumber);
             this.state.prevScore = this.state.score;
         }

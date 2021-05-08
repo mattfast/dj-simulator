@@ -80,6 +80,13 @@ class GameScene extends NightclubScene {
             this.add(this.blueArrows[i], this.greenArrows[i], this.redArrows[i]);
         }
 
+        // Add score counter
+        const score = new Text(this, "Score:", new Vector3(-4, 5, -0.08), 0.00004);
+        const scoreNumber = new Text(this, "0", new Vector3(-4, 4.9, -0.08), 0.00004);
+        this.state.scoreNumber = scoreNumber;
+        this.state.scorePosition = new Vector3();
+        this.add(score, scoreNumber);
+
         // Add first arrow to sequence
         this.state.sequence[0] = Math.floor(Math.random() * this.blueArrows.length);
 
@@ -155,7 +162,6 @@ class GameScene extends NightclubScene {
                     console.log(this.state.sequence[this.state.challengeIndex]);
                     console.log(this.state.challengeIndex);
 
-                    this.state.audio['clickSound'].currentTime = 0;
                     this.state.audio['clickSound'].play();
                     if (tableNames[this.state.selected.name] == this.state.sequence[this.state.challengeIndex]) {
                         this.state.challengeIndex += 1;
@@ -194,6 +200,12 @@ class GameScene extends NightclubScene {
                 this.redArrows[tableNames[this.state.lastSelected.name]].visible = false;
             }
             this.state.mouseUp = false;
+        }
+
+        if (this.state.prevScore != this.state.score) {
+            this.state.scoreNumber.visible = false;
+            this.state.scoreNumber = new Text(this, this.state.scoreNumber, new Vector3(), )
+
         }
 
         /*if (this.state.selected !== null) {

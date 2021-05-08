@@ -15,6 +15,8 @@ class InstructionScene extends NightclubScene {
         const instr3 = new Text(this, "Press SPACE to Begin", new Vector3(-0.12,-0.04,-0.08), 0.00007);
 
         this.add(instr0, instr1, instr2, instr3);
+
+        this.state.gui.hide();
     }
 
     addToUpdateList(object) {

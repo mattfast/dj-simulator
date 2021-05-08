@@ -14,6 +14,8 @@ class MenuScene extends NightclubScene {
         this.add(title, spaceToPlay);
 
         // // Populate GUI
+
+        this.state.gui.hide();
         // this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }
 

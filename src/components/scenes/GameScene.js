@@ -1,6 +1,6 @@
 import { NightclubScene } from './NightclubScene.js';
 import { Vector3, Audio, AudioLoader, AudioListener } from 'three';
-import { Man, Alien, DancingMan, Stormtrooper, Shrek, Arrow } from 'objects';
+import { Man, Alien, DancingMan, Stormtrooper, Shrek, Arrow, Text } from 'objects';
 
 const tablePositions = [
     new Vector3(-2, -0.1, -2),
@@ -81,10 +81,10 @@ class GameScene extends NightclubScene {
         }
 
         // Add score counter
-        const score = new Text(this, "Score:", new Vector3(-4, 5, -0.08), 0.00004);
-        const scoreNumber = new Text(this, "0", new Vector3(-4, 4.9, -0.08), 0.00004);
+        this.state.scorePosition = new Vector3(0.005,0.085,-0.08);
+        const score = new Text(this, "Score:", new Vector3(-0.01,0.1,-0.08), 0.00004);
+        const scoreNumber = new Text(this, this.state.score.toString(), this.state.scorePosition, 0.00004);
         this.state.scoreNumber = scoreNumber;
-        this.state.scorePosition = new Vector3();
         this.add(score, scoreNumber);
 
         // Add first arrow to sequence
@@ -116,6 +116,24 @@ class GameScene extends NightclubScene {
         for (let i = 0; i < object.children.length; i++) {
             fade(object.children[i], beginTimestamp, out);
         }
+    }
+
+    removeFromScene(object) {
+        console.log("here1");
+        console.log(object);
+
+        while (object.children.length) {
+            console.log("here");
+            this.removeFromScene(object.children[0]);
+        }
+
+        if (object.material) {
+            object.material.dispose();
+        }
+        if (object.geometry) {
+            object.geometry.dispose();
+        }
+        this.remove(object);
     }
 
     update(timeStamp) {
@@ -171,6 +189,7 @@ class GameScene extends NightclubScene {
                             
                             this.state.audio['actionSuccess'].play();
                             this.state.score += (10 * this.state.sequence.length);
+                            console.log(this.state.score);
 
                             const rand = Math.floor(Math.random() * this.blueArrows.length);
                             this.state.sequence[this.state.sequence.length] = rand;
@@ -184,6 +203,7 @@ class GameScene extends NightclubScene {
 
                         this.state.audio['actionFailure'].play();
                         this.state.score = Math.max(0, this.state.score - 10);
+                        console.log(this.state.score);
                         this.state.challengeIndex = 0;
                         this.state.prevTime = timeStamp;
                         this.state.demonstration = true;
@@ -203,9 +223,12 @@ class GameScene extends NightclubScene {
         }
 
         if (this.state.prevScore != this.state.score) {
-            this.state.scoreNumber.visible = false;
-            this.state.scoreNumber = new Text(this, this.state.scoreNumber, new Vector3(), )
-
+            //this.state.scoreNumber.visible = false;
+            this.removeFromScene(this.state.scoreNumber);
+            console.log("here");
+            this.state.scoreNumber = new Text(this, this.state.score.toString(), this.state.scorePosition, 0.00004);
+            this.add(this.state.scoreNumber);
+            this.state.prevScore = this.state.score;
         }
 
         /*if (this.state.selected !== null) {

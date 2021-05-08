@@ -18,6 +18,7 @@ class NightclubScene extends Scene {
             lastSelected: null,
             difficulty: 1000,
             score: 0,
+            prevScore: 0,
             sequence: [],
             demonstration: true,
             demonstrationIndex: -1,

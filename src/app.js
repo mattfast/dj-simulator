@@ -43,63 +43,64 @@ let scene = menuScene;
 
 // Set up audio
 const listener = new AudioListener();
-var titleMusic = new Audio( listener );
 var audioLoader = new AudioLoader();
+const audio = {};
+audio['titleMusic'] = new Audio( listener );
 
 // Load initial background music
 audioLoader.load('src/components/audio/title_music.mp3', function( buffer ) {
-    titleMusic.setBuffer( buffer );
-    titleMusic.setLoop = true;
-    titleMusic.hasPlaybackControl = true;
-    titleMusic.play();
+    audio['titleMusic'].setBuffer( buffer );
+    audio['titleMusic'].setLoop = true;
+    audio['titleMusic'].hasPlaybackControl = true;
+    audio['titleMusic'].play();
 });
 
 // Load 'click' sound
-var clickSound = new Audio( listener );
+audio['clickSound'] = new Audio( listener );
 audioLoader.load('src/components/audio/button_press.mp3', function( buffer ) {
-   clickSound.setBuffer( buffer );
-   clickSound.hasPlaybackControl = true;
-   clickSound.pause();
+   audio['clickSound'].setBuffer( buffer );
+   audio['clickSound'].hasPlaybackControl = true;
+   audio['clickSound'].pause();
 });
 
 // Load Animals by Martin Garrix (Game music)
-var animalsSong = new Audio( listener );
+audio['animalsSong'] = new Audio( listener );
 audioLoader.load('src/components/audio/animals.mp3', function( buffer ) {
-    animalsSong.setBuffer( buffer );
-    animalsSong.hasPlaybackControl = true;
-    animalsSong.pause();
+    audio['animalsSong'].setBuffer( buffer );
+    audio['animalsSong'].hasPlaybackControl = true;
+    audio['animalsSong'].pause();
 });
 
 // Load Crowd boo
-var boo = new Audio( listener );
+audio['boo'] = new Audio( listener );
 audioLoader.load('src/components/audio/boo.mp3', function( buffer ) {
-    boo.setBuffer( buffer );
-    boo.hasPlaybackControl = true;
-    boo.pause();
+    audio['boo'].setBuffer( buffer );
+    audio['boo'].hasPlaybackControl = true;
+    audio['boo'].pause();
 });
 
 // Load Crowd cheer
-var cheer = new Audio( listener );
+audio['cheer'] = new Audio( listener );
 audioLoader.load('src/components/audio/cheer.mp3', function( buffer ) {
-    cheer.setBuffer( buffer );
-    cheer.hasPlaybackControl = true;
-    cheer.pause();
+    audio['cheer'].setBuffer( buffer );
+    audio['cheer'].hasPlaybackControl = true;
+    audio['cheer'].pause();
 });
 
 // Load Action Failure sound
-var actionFailure = new Audio( listener );
-audioLoader.load('src/components/audio/action_failure.mp3', function( buffer ) {
-    actionFailure.setBuffer( buffer );
-    actionFailure.hasPlaybackControl = true;
-    actionFailure.pause();
+audio['actionFailure'] = new Audio( listener );
+audioLoader.load('src/components/audio/action_failure_edited.mp3', function( buffer ) {
+    audio['actionFailure'].setBuffer( buffer );
+    audio['actionFailure'].hasPlaybackControl = true;
+    audio['actionFailure'].pause();
 });
 
 // Load Action Success sound
-var actionSuccess = new Audio( listener );
+audio['actionSuccess'] = new Audio( listener );
 audioLoader.load('src/components/audio/action_success.mp3', function( buffer ) {
-    actionSuccess.setBuffer( buffer );
-    actionSuccess.hasPlaybackControl = true;
-    actionSuccess.pause();
+    audio['actionSuccess'].setBuffer( buffer );
+    audio['actionSuccess'].hasPlaybackControl = true;
+    audio['actionSuccess'].pause();
 });
 
 
@@ -128,13 +129,13 @@ window.addEventListener('keydown', event => {
     if (key == ' '){
         if (scene.state.type == 'menu'){
             scene = new InstructionScene();
-            clickSound.play();
+            audio['clickSound'].play();
         }
         else if (scene.state.type == 'instruction'){
-            scene = new GameScene();
-            clickSound.play();
-            titleMusic.stop();
-            animalsSong.play();
+            scene = new GameScene(audio);
+            audio['clickSound'].play();
+            audio['titleMusic'].stop();
+            audio['animalsSong'].play();
         }
     }
 })
@@ -151,7 +152,7 @@ window.addEventListener('mousedown', event => {
         const object = intersects[0].object;
         console.log(object.name);
         if (object !== null) {
-            actionSuccess.play();
+            //actionSuccess.play();
             scene.state.selected = object;
         }
     }

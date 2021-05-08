@@ -42,10 +42,11 @@ const negativeFeedback = [
 
 
 class GameScene extends NightclubScene {
-    constructor() {
+    constructor(audio) {
         // Call parent Scene() constructor
         super();
         this.state.type = 'game';
+        this.state.audio = audio;
 
         // Add dancers
         const alien = new Alien(this);
@@ -153,15 +154,19 @@ class GameScene extends NightclubScene {
                     console.log(tableNames[this.state.selected.name]);
                     console.log(this.state.sequence[this.state.challengeIndex]);
                     console.log(this.state.challengeIndex);
+
+                    this.state.audio['clickSound'].play();
                     if (tableNames[this.state.selected.name] == this.state.sequence[this.state.challengeIndex]) {
                         this.state.challengeIndex += 1;
                         this.greenArrows[tableNames[this.state.selected.name]].visible = true;
 
                         if (this.state.challengeIndex == this.state.sequence.length) {
+                            
+                            this.state.audio['actionSuccess'].play();
+                            this.state.score += (10 * this.state.sequence.length);
+
                             const rand = Math.floor(Math.random() * this.blueArrows.length);
                             this.state.sequence[this.state.sequence.length] = rand;
-
-                            this.state.score += (10 * (this.state.sequence.length - 1));
                             this.state.challengeIndex = 0;
                             this.state.prevTime = timeStamp;
                             this.state.demonstration = true;
@@ -170,6 +175,8 @@ class GameScene extends NightclubScene {
                     else {
                         this.redArrows[tableNames[this.state.selected.name]].visible = true;
 
+                        this.state.audio['actionFailure'].play();
+                        this.state.score = Math.max(0, this.state.score - 10);
                         this.state.challengeIndex = 0;
                         this.state.prevTime = timeStamp;
                         this.state.demonstration = true;

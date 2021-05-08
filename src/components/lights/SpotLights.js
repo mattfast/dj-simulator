@@ -29,10 +29,8 @@ class SpotLights extends Group {
     	this.state.ticker++;
 
         if (this.state.color != this.state.prevColor) {
-            this.state.dir = null;
-            this.state.dir = new SpotLight(this.state.color, 5, 0.0, 0.5, 1, 1);
+            this.state.dir.color.setHex(this.state.color);
             this.state.prevColor = this.state.color;
-            this.state.parent.add(this.state.dir);
         }
 
     	if (this.state.blinking && this.state.ticker % this.state.strobeSpeed == 0) {

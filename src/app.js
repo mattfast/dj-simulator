@@ -60,6 +60,7 @@ audio['clickSound'] = new Audio( listener );
 audioLoader.load('src/components/audio/button_press.mp3', function( buffer ) {
    audio['clickSound'].setBuffer( buffer );
    audio['clickSound'].hasPlaybackControl = true;
+   audio['clickSound'].setVolume(3.0);
    audio['clickSound'].pause();
 });
 
@@ -68,6 +69,7 @@ audio['animalsSong'] = new Audio( listener );
 audioLoader.load('src/components/audio/animals.mp3', function( buffer ) {
     audio['animalsSong'].setBuffer( buffer );
     audio['animalsSong'].hasPlaybackControl = true;
+    audio['animalsSong'].setVolume(0.7);
     audio['animalsSong'].pause();
 });
 
@@ -92,6 +94,7 @@ audio['actionFailure'] = new Audio( listener );
 audioLoader.load('src/components/audio/action_failure_edited.mp3', function( buffer ) {
     audio['actionFailure'].setBuffer( buffer );
     audio['actionFailure'].hasPlaybackControl = true;
+    audio['actionFailure'].setVolume(5.0);
     audio['actionFailure'].pause();
 });
 
@@ -100,6 +103,7 @@ audio['actionSuccess'] = new Audio( listener );
 audioLoader.load('src/components/audio/action_success.mp3', function( buffer ) {
     audio['actionSuccess'].setBuffer( buffer );
     audio['actionSuccess'].hasPlaybackControl = true;
+    audio['actionSuccess'].setVolume(2.0);
     audio['actionSuccess'].pause();
 });
 

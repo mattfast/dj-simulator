@@ -155,6 +155,7 @@ class GameScene extends NightclubScene {
                     console.log(this.state.sequence[this.state.challengeIndex]);
                     console.log(this.state.challengeIndex);
 
+                    this.state.audio['clickSound'].currentTime = 0;
                     this.state.audio['clickSound'].play();
                     if (tableNames[this.state.selected.name] == this.state.sequence[this.state.challengeIndex]) {
                         this.state.challengeIndex += 1;

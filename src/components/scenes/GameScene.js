@@ -224,14 +224,8 @@ class GameScene extends NightclubScene {
         }
 
         if (this.state.prevScore != this.state.score) {
-            //this.state.scoreNumber.visible = false;
-            //this.removeFromScene(this.state.scoreNumber);
-            //console.log("here");
-            //console.log(this.state.scoreNumber.visible);
             this.remove(this.getObjectByName(this.state.prevScore.toString()));
-            //console.log(this.state.scoreNumber.visible);
             this.state.scoreNumber = new Text(this, this.state.score.toString(), this.state.scorePosition, 0.00004);
-            //console.log(this.state.scoreNumber);
             this.add(this.state.scoreNumber);
             this.state.prevScore = this.state.score;
         }

@@ -3,7 +3,7 @@ import { MeshBasicMaterial, Texture, DoubleSide, Mesh, PlaneGeometry,
     
 
 class Text extends Group {
-    constructor(parent, text, position, scalarMultiple) {
+    constructor(parent, text, position, scalarMultiple, textHolder) {
 
         super();
 
@@ -35,8 +35,9 @@ class Text extends Group {
             gameTitleMesh.position.set(position.x, position.y, position.z);
             gameTitleMesh.scale.multiplyScalar(scalarMultiple);
             gameTitleMesh.rotation.set(0, 0, 0);
-            // gameTitleMesh.castShadow = true;
-            parent.add(gameTitleMesh);        
+            gameTitleMesh.name = text;
+
+            parent.add(gameTitleMesh);   
         });
 
         // Add self to parent's update list

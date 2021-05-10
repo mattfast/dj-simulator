@@ -9,6 +9,7 @@
 import { WebGLRenderer, PerspectiveCamera, Vector3, Vector2, Clock, FloatType, Raycaster, AudioListener, Audio, AudioLoader } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GameScene, MenuScene, InstructionScene } from 'scenes';
+import GameOverScene from './components/scenes/GameOverScene';
 
 // Initialize core ThreeJS components
 const menuScene = new MenuScene();
@@ -111,6 +112,14 @@ audioLoader.load('src/components/audio/action_success.mp3', function( buffer ) {
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
+    // check if we need to switch to the gameOver scene
+    if (scene.state.type == 'game'){
+        if (scene.state.gameOver  == true){
+            console.log('got in the app loop');
+            let goScene = new GameOverScene(scene.state.score);
+            scene = goScene;
+        }
+    }
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);
@@ -135,8 +144,9 @@ window.addEventListener('keydown', event => {
             scene = new InstructionScene();
             audio['clickSound'].play();
         }
-        else if (scene.state.type == 'instruction'){
+        else if (scene.state.type == 'instruction' || scene.state.type == 'gameOver'){
             scene = new GameScene(audio);
+            scene.state.gameOver = false;
             audio['clickSound'].play();
             audio['titleMusic'].stop();
             audio['animalsSong'].play();

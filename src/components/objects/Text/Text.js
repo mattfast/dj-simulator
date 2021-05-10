@@ -13,7 +13,7 @@ class Text extends Group {
         };
 
         var loader = new FontLoader();
-        loader.load('node_modules/three/examples/fonts/helvetiker_regular.typeface.json', function(font, scene) {
+        loader.load('helvetiker_regular.typeface.json', function(font, scene) {
             var material = new MeshLambertMaterial({
                 color: 0xd3d3d3,
                 emissive: 0xff0000,

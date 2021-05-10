@@ -1,6 +1,7 @@
 const path = require('path');
 const pkg = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const buildPath = './build/';
 
 module.exports = {
@@ -12,9 +13,9 @@ module.exports = {
     },
     target: 'web',
     devtool: 'source-map',
-    stats: {
+    /*stats: {
         warnings: false
-    },
+    },*/
     module: {
         rules: [
             {
@@ -50,10 +51,16 @@ module.exports = {
             objects$: path.resolve(__dirname, 'src/components/objects'),
             scenes$: path.resolve(__dirname, 'src/components/scenes'),
             audio$: path.resolve(__dirname, 'src/components/audio'),
-            textures$: path.resolve(__dirname, 'src/components/textures'),
+            textures$: path.resolve(__dirname, 'src/components/textures')
         },
     },
     plugins: [
         new HtmlWebpackPlugin({ title: pkg.title, favicon: 'src/favicon.ico' }),
+        new CopyPlugin([
+            {
+                from: './node_modules/three/examples/fonts/helvetiker_regular.typeface.json',
+                to: 'helvetiker_regular.typeface.json'
+            },
+        ]),
     ],
 };

@@ -28,17 +28,24 @@ const positiveFeedback = [
     "Amazing!",
     "Exceptional!",
     "Wow!!",
-    "Felix is Amazing!!",
     "Perfect!"
 ]
 
 const negativeFeedback = [
-    "Yikes",
-    "Bad Job",
-    "Not Great",
-    "Try Again",
-    "Oof"
+    "Yikes!",
+    "Bad Job!",
+    "Not Great...",
+    "Try Again!",
+    "Oooof!",
+    "Not quite!"
 ]
+
+// variables to track timestamp of last feedback and instruction text
+// used to determine when to remove the given text object
+var feedbackStamp = 0;
+var instrStamp = 0;
+var feedbackName = "";
+var instrName = "";
 
 
 class GameScene extends NightclubScene {
@@ -119,6 +126,21 @@ class GameScene extends NightclubScene {
         }
     }
 
+    checkTextRemove(object, initialTime, currTime, isFeedback){
+        if (isFeedback){
+            if (currTime - initialTime >= 4000){
+                this.removeFromScene(object);
+                feedbackStamp = 0;
+            }
+        }
+        else {
+            if (currTime - initialTime >= 2000){
+                this.removeFromScene(object);
+                instrStamp = 0;
+            }
+        }
+    }
+
     removeFromScene(object) {
         console.log("here1");
         console.log(object);
@@ -137,6 +159,42 @@ class GameScene extends NightclubScene {
         this.remove(object);
     }
 
+    // generates a randomly located, randomly selected feedback message to display
+    generateFeedback(isPositive, timeStamp){
+        let chosenText;
+        if (isPositive){
+            chosenText = positiveFeedback[Math.floor(Math.random() * 6)];
+        }
+        else{
+            chosenText = negativeFeedback[Math.floor(Math.random() * 6)];
+        }
+        feedbackName = chosenText;
+        feedbackStamp = timeStamp;
+        let x = (Math.random() * 0.3) - 0.22;
+        let y = (Math.random() * 0.1) - 0.01;
+        let fbTextObj = new Text(this, chosenText, new Vector3(x,y,-0.08), 0.00007);
+        this.add(fbTextObj);
+    }
+
+    // generate the text telling the user which phase they are about to enter
+    generateInstruction(isDemo, timeStamp){
+        let chosenText;
+        let x;
+        if (isDemo){
+            chosenText = "Watch closely!";
+            x = -0.11;
+
+        }
+        else{
+            chosenText = "Repeat the sequence!";
+            x = -0.15;
+        }
+        instrName = chosenText;
+        instrStamp = timeStamp;
+        let instrTextObj = new Text(this, chosenText, new Vector3(x,0.01,-0.08), 0.00009);
+        this.add(instrTextObj);
+    }
+
     update(timeStamp) {
         const { rotationSpeed, updateList } = this.state;
         this.rotation.y = (rotationSpeed * timeStamp) / 10000;
@@ -146,6 +204,19 @@ class GameScene extends NightclubScene {
             obj.update(timeStamp);
         }
 
+        // Check whether to remove any text objects (feedback or instructions)
+        if (feedbackStamp != 0){
+            let feedbackObj = this.getObjectByName(feedbackName);
+            if (feedbackObj != null){
+                this.checkTextRemove(feedbackObj, feedbackStamp, timeStamp, true);
+            }
+        }
+        if (instrStamp != 0){
+            let instrObj = this.getObjectByName(instrName);
+            if (instrObj != null){
+                this.checkTextRemove(instrObj, instrStamp, timeStamp, false);
+            }
+        }
         // handle demonstration of sequence
         if (this.state.demonstration) {
 
@@ -161,8 +232,10 @@ class GameScene extends NightclubScene {
                     this.state.demonstrationIndex = -1;
                     this.state.selected = null;
                     this.state.demonstration = false;
+                    this.generateInstruction(false, timeStamp);
                 }
                 else {
+                    // allow time for the feedback to show
                     this.state.prevTime = timeStamp; 
                 }
             }
@@ -187,11 +260,10 @@ class GameScene extends NightclubScene {
                         this.greenArrows[tableNames[this.state.selected.name]].visible = true;
 
                         if (this.state.challengeIndex == this.state.sequence.length) {
-                            
+                            this.generateInstruction(true, timeStamp);
                             this.state.audio['actionSuccess'].play();
                             this.state.score += (10 * this.state.sequence.length);
                             console.log(this.state.score);
-
                             const rand = Math.floor(Math.random() * this.blueArrows.length);
                             this.state.sequence[this.state.sequence.length] = rand;
                             this.state.challengeIndex = 0;
@@ -205,9 +277,13 @@ class GameScene extends NightclubScene {
                         this.state.audio['actionFailure'].play();
                         this.state.score = Math.max(0, this.state.score - 10);
                         console.log(this.state.score);
+                        this.generateFeedback(false, timeStamp);
                         this.state.challengeIndex = 0;
                         this.state.prevTime = timeStamp;
                         this.state.demonstration = true;
+                    }
+                    if (timeStamp = this.state.prevTime){
+                        this.generateFeedback(true, timeStamp);
                     }
                 }
                 this.state.lastSelected = this.state.selected;

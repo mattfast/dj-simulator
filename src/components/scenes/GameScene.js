@@ -54,6 +54,7 @@ class GameScene extends NightclubScene {
         super();
         this.state.type = 'game';
         this.state.audio = audio;
+        this.state.gameOver = false;
 
         // Add dancers
         const alien = new Alien(this);
@@ -199,6 +200,14 @@ class GameScene extends NightclubScene {
         const { rotationSpeed, updateList } = this.state;
         this.rotation.y = (rotationSpeed * timeStamp) / 10000;
 
+        // decides when to end the game
+        if (!this.state.audio['animalsSong'].isPlaying){
+        //if (this.state.audio['actionFailure'].isPlaying){
+            this.state.gameOver = true;
+            console.log("GOT TO GAME OVER");
+            console.log(this.state.gameOver);
+        }
+
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
@@ -247,7 +256,7 @@ class GameScene extends NightclubScene {
         }
 
         // handle attempt at sequence
-        else {
+        else{
             if (this.state.selected !== null) {
                 if (this.state.selected.name in tableNames) {
                     console.log(tableNames[this.state.selected.name]);
@@ -269,6 +278,7 @@ class GameScene extends NightclubScene {
                             this.state.challengeIndex = 0;
                             this.state.prevTime = timeStamp;
                             this.state.demonstration = true;
+                            this.generateFeedback(true, timeStamp);
                         }
                     }
                     else {
@@ -283,7 +293,6 @@ class GameScene extends NightclubScene {
                         this.state.demonstration = true;
                     }
                     if (timeStamp = this.state.prevTime){
-                        this.generateFeedback(true, timeStamp);
                     }
                 }
                 this.state.lastSelected = this.state.selected;
